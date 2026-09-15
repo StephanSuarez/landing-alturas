@@ -1,0 +1,50 @@
+---
+// El formulario no va a un servidor: arma el mensaje y abre WhatsApp con el texto listo.
+import Icon from './Icon.astro';
+import { servicios } from '../data/site';
+
+interface Props {
+  servicio?: string;
+}
+
+const { servicio = servicios[0] } = Astro.props;
+---
+
+<form class="form" data-wa-form>
+  <span class="kicker"><Icon name="wa" size={16} /> Contáctanos</span>
+  <h2>Solicita más información</h2>
+  <p>Escríbenos y te confirmamos fecha, requisitos y forma de pago.</p>
+  <div class="fr">
+    <label class="fld">Nombre completo
+      <input name="nombre" required autocomplete="name" placeholder="Ana Gómez" />
+    </label>
+    <label class="fld">Servicio
+      <select name="servicio">
+        {servicios.map((s) => <option selected={s === servicio}>{s}</option>)}
+      </select>
+    </label>
+  </div>
+  <label class="fld">Mensaje (opcional)
+    <textarea name="mensaje" rows="3" placeholder="Somos 5 personas y necesitamos el curso este mes."></textarea>
+  </label>
+  <button class="cta block" type="submit"><Icon name="wa" /> Enviar por WhatsApp</button>
+</form>
+
+<script>
+  import { wa } from '../data/site';
+
+  document.querySelectorAll<HTMLFormElement>('[data-wa-form]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const mensaje = String(d.get('mensaje') ?? '').trim();
+      const texto = [`Hola, soy ${d.get('nombre')}.`, `Me interesa: ${d.get('servicio')}.`, mensaje]
+        .filter(Boolean)
+        .join(' ');
+      const url = wa(texto);
+      const win = window.open(url, '_blank');
+      if (win) win.opener = null;
+      else location.href = url; // si el navegador bloquea la pestaña nueva
+    });
+  });
+</script>

@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Foto from '../components/Foto.astro';
+
+// Textos resumidos del PDF de valores (Quiénes somos, Soluciones integrales).
+const pilares = [
+  { t: 'Exámenes médicos', d: 'Ocupacionales, de aptitud en alturas y toxicológicos, verificables ante la IPS.' },
+  { t: 'Capacitación certificada', d: 'Trabajo en alturas, espacios confinados y manipulación de alimentos, avalados por el Ministerio de Trabajo.' },
+  { t: 'Seguridad social y SG-SST', d: 'Afiliación a EPS, ARL, pensión y caja de compensación, y asesoría en la implementación del SG-SST.' },
+];
+---
+
+<Base title="Quiénes somos | Línea Vital" description="Salud ocupacional, seguridad industrial y bienestar laboral para empresas de todo el país.">
+  <section class="navy">
+    <div class="wrap hero short">
+      <div class="stack">
+        <span class="tag">Quiénes somos</span>
+        <h1 class="h1 sm">Protegemos a la gente que <span class="g">impulsa a las empresas</span></h1>
+        <p class="lead">Somos especialistas en salud ocupacional, seguridad industrial y bienestar laboral, con cobertura nacional.</p>
+      </div>
+      <Foto alt="el equipo de Línea Vital o la sede" class="md" eager />
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <h2 class="h2">Lo que hacemos</h2>
+      <p class="sub">Una red nacional de aliados e IPS propias.</p>
+      <div class="pillars">
+        {pilares.map((p) => <div class="pillar"><h3>{p.t}</h3><p>{p.d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap two">
+      <div>
+        <h2 class="h2">Un solo proveedor para tu empresa</h2>
+        <p class="sub">Centralizamos todos los servicios en un solo paquete, optimizando tiempos, recursos y costos.</p>
+        <ul class="checks">
+          <li><i><Icon name="check" size={14} /></i>Menos riesgos legales y operativos</li>
+          <li><i><Icon name="check" size={14} /></i>Más productividad</li>
+          <li><i><Icon name="check" size={14} /></i>Mejor calidad de vida del equipo</li>
+          <li><i><Icon name="check" size={14} /></i>Alianza con Salud Total EPS</li>
+        </ul>
+      </div>
+      <div class="imgcard">
+        <Foto alt="entrega de certificados" />
+        <div class="txt">
+          <h3>Todo se puede verificar</h3>
+          <p>Los cursos, en el Ministerio de Trabajo. Los exámenes, ante la IPS que los emitió.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

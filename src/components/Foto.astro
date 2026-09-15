@@ -1,0 +1,32 @@
+---
+// Sin `src`, o si el archivo todavía no existe en public/, pinta un recuadro
+// que marca dónde va la foto real. Así nunca sale una imagen rota.
+// Con fotos: guárdalas en public/fotos/ y pasa src="/fotos/archivo.jpg".
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props {
+  alt: string;
+  src?: string;
+  class?: string;
+  eager?: boolean;
+  pos?: string; // encuadre de la foto, por ejemplo "50% 30%"
+}
+
+const { alt, src, class: cls, eager = false, pos } = Astro.props;
+
+// Busca el archivo en public/. Si no está con esa extensión, prueba las otras
+// (portada.jpg también encuentra portada.png o portada.webp).
+// ponytail: solo rutas locales; una URL externa se usa tal cual.
+const enPublic = (p: string) => existsSync(join(process.cwd(), 'public', p));
+const extensiones = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
+let url = src;
+if (src?.startsWith('/') && !enPublic(src)) {
+  const base = src.replace(/\.[a-z0-9]+$/i, '');
+  url = extensiones.map((e) => base + e).find(enPublic);
+}
+---
+
+{url
+  ? <img class:list={['photo', cls]} src={url} alt={alt} style={pos ? `object-position: ${pos}` : undefined} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  : <div class:list={['photo', 'ph', cls]} role="img" aria-label={alt}>Foto: {alt}</div>}

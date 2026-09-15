@@ -1,0 +1,99 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { wa, WHATSAPP_VISIBLE, redes } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const nav = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Precios', href: '/precios' },
+  { label: 'Contacto', href: '/contacto' },
+];
+const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap">
+        <a href="/" aria-label="Línea Vital, inicio"><img src="/logo.png" alt="Línea Vital" width="167" height="38" /></a>
+        <nav class="nav" aria-label="Principal">
+          {nav.map((n) => <a href={n.href} aria-current={n.href === actual ? 'page' : undefined}>{n.label}</a>)}
+        </nav>
+        <a class="cta sm" href={wa()} target="_blank" rel="noopener"><Icon name="wa" size={18} /> Hablar por WhatsApp</a>
+      </div>
+    </header>
+
+    <main><slot /></main>
+
+    <footer class="footer">
+      <div class="wrap fcols">
+        <div class="fcol">
+          <img src="/logo.png" alt="Línea Vital" width="176" height="40" />
+          <span>Cobertura nacional</span>
+          <span>Sisoconstruavaluos · NIT 901.155.855-4</span>
+        </div>
+        <div class="fcol">
+          <a href={wa()} target="_blank" rel="noopener" class="inline"><Icon name="wa" size={16} /> {WHATSAPP_VISIBLE}</a>
+          <a href={redes.instagram} target="_blank" rel="noopener">Instagram @lineavitalco</a>
+          <a href={redes.tiktok} target="_blank" rel="noopener">TikTok @lineavitalco</a>
+          {redes.facebook ? <a href={redes.facebook} target="_blank" rel="noopener">Facebook Linea Vital</a> : <span>Facebook Linea Vital</span>}
+        </div>
+        <nav class="fcol" aria-label="Pie de página">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+      </div>
+      <div class="wrap"><p class="copy">© {new Date().getFullYear()} Línea Vital. Todos los derechos reservados.</p></div>
+    </footer>
+
+    <a class="wa-float" href={wa()} target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><Icon name="wa" size={28} /></a>
+    <div class="bottombar">
+      <a class="cta block" href={wa()} target="_blank" rel="noopener"><Icon name="wa" /> Hablar por WhatsApp</a>
+    </div>
+
+    <script>
+      // Las secciones aparecen al llegar a ellas. Sin JS, o con "reducir movimiento"
+      // activado en el sistema, todo se ve igual pero sin animar.
+      const sel = '.sec .h2, .sec .sub, .icons li, .imgcard, .checks li, .panel, .info, .incl > .photo, .course, .more, .faq details, .sec .form, .pillar, .pdet';
+
+      if (matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) {
+            if (!e.isIntersecting) continue;
+            const el = e.target as HTMLElement;
+            const delay = parseInt(el.style.getPropertyValue('--d')) || 0;
+            el.classList.add('in');
+            io.unobserve(el);
+            // Al terminar se quitan las clases para no interferir con los efectos al pasar el mouse.
+            setTimeout(() => { el.classList.remove('rv', 'in'); el.style.removeProperty('--d'); }, 600 + delay);
+          }
+        }, { rootMargin: '0px 0px -8% 0px' });
+
+        document.querySelectorAll<HTMLElement>(sel).forEach((el) => {
+          const hermanos = Array.from(el.parentElement?.children ?? []).filter((h) => h.matches(sel));
+          el.style.setProperty('--d', `${Math.min(hermanos.indexOf(el), 5) * 60}ms`);
+          el.classList.add('rv');
+          io.observe(el);
+        });
+      }
+    </script>
+  </body>
+</html>
