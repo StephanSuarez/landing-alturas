@@ -11,6 +11,10 @@ export const wa = (text = 'Hola, quiero información sobre sus servicios.') =>
 
 export const cop = (n: number) => `$${n.toLocaleString('es-CO')}`;
 
+// Rutas internas con la base del sitio: '' en local, '/landing-alturas' en GitHub Pages.
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+export const ruta = (p: string) => BASE + p;
+
 // Handles tomados del brochure. Las URL se arman desde el handle y no están verificadas.
 export const redes = {
   instagram: 'https://www.instagram.com/lineavitalco/',

@@ -4,6 +4,7 @@
 // Con fotos: guárdalas en public/fotos/ y pasa src="/fotos/archivo.jpg".
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { ruta } from '../data/site';
 
 interface Props {
   alt: string;
@@ -28,5 +29,5 @@ if (src?.startsWith('/') && !enPublic(src)) {
 ---
 
 {url
-  ? <img class:list={['photo', cls]} src={url} alt={alt} style={pos ? `object-position: ${pos}` : undefined} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  ? <img class:list={['photo', cls]} src={url.startsWith('/') ? ruta(url) : url} alt={alt} style={pos ? `object-position: ${pos}` : undefined} loading={eager ? 'eager' : 'lazy'} decoding="async" />
   : <div class:list={['photo', 'ph', cls]} role="img" aria-label={alt}>Foto: {alt}</div>}

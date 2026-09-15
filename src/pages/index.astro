@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Foto from '../components/Foto.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { wa, cop, cursos, examenes, pagos } from '../data/site';
+import { wa, cop, cursos, examenes, pagos, ruta } from '../data/site';
 
 const [autorizado, reentrenamiento] = cursos;
 const examenAlturas = examenes[0];
@@ -41,7 +41,7 @@ const faq = [
           <a class="cta" href={wa('Hola, quiero información del curso de trabajo en alturas. ¿Cuál es la próxima fecha?')} target="_blank" rel="noopener">
             <Icon name="wa" size={18} /> Hablar con un asesor <Icon name="arrow" size={16} />
           </a>
-          <a class="ghost" href="/precios">Ver precios <Icon name="arrow" size={16} /></a>
+          <a class="ghost" href={ruta('/precios')}>Ver precios <Icon name="arrow" size={16} /></a>
         </div>
         <p class="hero-price"><b>{cop(autorizado.precio!)}</b> por persona · primera vez o reentrenamiento</p>
         <ul class="feats">
@@ -126,7 +126,7 @@ const faq = [
           </article>
         ))}
       </div>
-      <p class="more"><a href="/precios">¿También necesitas examen médico, seguridad social o licencia? Ver todos los precios ›</a></p>
+      <p class="more"><a href={ruta('/precios')}>¿También necesitas examen médico, seguridad social o licencia? Ver todos los precios ›</a></p>
     </div>
   </section>
 

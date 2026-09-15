@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-import { wa, WHATSAPP_VISIBLE, redes } from '../data/site';
+import { wa, WHATSAPP_VISIBLE, redes, ruta } from '../data/site';
 
 interface Props {
   title: string;
@@ -16,7 +16,8 @@ const nav = [
   { label: 'Precios', href: '/precios' },
   { label: 'Contacto', href: '/contacto' },
 ];
-const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
+const sinBarra = (p: string) => p.replace(/\/$/, '') || '/';
+const actual = sinBarra(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -26,7 +27,7 @@ const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href={ruta('/favicon.png')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" />
@@ -34,9 +35,9 @@ const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
   <body>
     <header class="topbar">
       <div class="wrap">
-        <a href="/" aria-label="Línea Vital, inicio"><img src="/logo.png" alt="Línea Vital" width="167" height="38" /></a>
+        <a href={ruta('/')} aria-label="Línea Vital, inicio"><img src={ruta('/logo.png')} alt="Línea Vital" width="167" height="38" /></a>
         <nav class="nav" aria-label="Principal">
-          {nav.map((n) => <a href={n.href} aria-current={n.href === actual ? 'page' : undefined}>{n.label}</a>)}
+          {nav.map((n) => <a href={ruta(n.href)} aria-current={sinBarra(ruta(n.href)) === actual ? 'page' : undefined}>{n.label}</a>)}
         </nav>
         <a class="cta sm" href={wa()} target="_blank" rel="noopener"><Icon name="wa" size={18} /> Hablar por WhatsApp</a>
       </div>
@@ -47,7 +48,7 @@ const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
     <footer class="footer">
       <div class="wrap fcols">
         <div class="fcol">
-          <img src="/logo.png" alt="Línea Vital" width="176" height="40" />
+          <img src={ruta('/logo.png')} alt="Línea Vital" width="176" height="40" />
           <span>Cobertura nacional</span>
           <span>Sisoconstruavaluos · NIT 901.155.855-4</span>
         </div>
@@ -58,7 +59,7 @@ const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
           {redes.facebook ? <a href={redes.facebook} target="_blank" rel="noopener">Facebook Linea Vital</a> : <span>Facebook Linea Vital</span>}
         </div>
         <nav class="fcol" aria-label="Pie de página">
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          {nav.map((n) => <a href={ruta(n.href)}>{n.label}</a>)}
         </nav>
       </div>
       <div class="wrap"><p class="copy">© {new Date().getFullYear()} Línea Vital. Todos los derechos reservados.</p></div>
