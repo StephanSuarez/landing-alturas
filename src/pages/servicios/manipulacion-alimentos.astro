@@ -31,15 +31,15 @@ const pruebas = [
     text="Soluciones para personas y empresas que requieren procesos relacionados con la manipulación de alimentos."
     msg={msg}
     second={{ label: 'Solicitar información', href: '#formulario' }}
-  >
-    <div class="panel" slot="aside">
-      <span class="kicker"><Icon name="users" size={16} /> Dirigido a</span>
-      <p class="lead">Personas que trabajan en la cadena de producción o servicio de alimentos.</p>
-    </div>
-  </Hero>
+    photo={{ src: '/fotos/alimentos-manipuladora.webp', alt: 'Persona con delantal sosteniendo una malla de papas', cutout: true }}
+  />
 
   <section class="sec">
     <div class="wrap">
+      <div class="head">
+        <span class="kicker"><Icon name="users" size={16} /> Dirigido a</span>
+        <h2 class="h2">Personas que trabajan en la cadena de producción o servicio de alimentos</h2>
+      </div>
       <div class="grid2">
         <article class="card">
           <span class="ico"><Icon name="cert" size={22} /></span>

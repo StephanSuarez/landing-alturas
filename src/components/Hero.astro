@@ -1,6 +1,7 @@
 ---
 // Portada de cada página: oscura (por defecto) o clara con el tono del servicio.
 // A la derecha va una foto o lo que llegue en el slot "aside"; sin nada, el texto va solo.
+// Foto recortada (cutout: fondo transparente, del brochure): se apoya sobre el borde inferior de la portada.
 import Icon from './Icon.astro';
 import Foto from './Foto.astro';
 import Asesor from './Asesor.astro';
@@ -16,7 +17,7 @@ interface Props {
   msg?: string;
   second?: { label: string; href: string };
   light?: boolean;
-  photo?: { src: string; alt: string; pos?: string };
+  photo?: { src: string; alt: string; pos?: string; cutout?: boolean };
 }
 
 const { title, hl, tag, tagIcon = 'pulse', sub, text, msg, second, light = false, photo } = Astro.props;
@@ -24,7 +25,7 @@ const aside = photo || Astro.slots.has('aside');
 ---
 
 <section class:list={['hero-sec', light ? 'soft' : 'navy']}>
-  <div class:list={['wrap hero', { solo: !aside }]}>
+  <div class:list={['wrap hero', { solo: !aside, 'with-cut': photo?.cutout }]}>
     <div class="stack">
       {tag && <span class="tag"><Icon name={tagIcon} size={14} /> {tag}</span>}
       <h1 class="h1">{title}{hl && <> <span class="hl">{hl}</span></>}</h1>
@@ -36,6 +37,8 @@ const aside = photo || Astro.slots.has('aside');
       </div>
       <slot />
     </div>
-    {photo ? <Foto class="md" src={photo.src} alt={photo.alt} pos={photo.pos} eager /> : <slot name="aside" />}
+    {photo?.cutout
+      ? <div class="cutout"><Foto src={photo.src} alt={photo.alt} eager /></div>
+      : photo ? <Foto class="md" src={photo.src} alt={photo.alt} pos={photo.pos} eager /> : <slot name="aside" />}
   </div>
 </section>

@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import Hero from '../../components/Hero.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import Foto from '../../components/Foto.astro';
 
 const msg = 'Hola, quiero información sobre el servicio de transporte premium.';
 
@@ -35,6 +36,7 @@ const vehiculos = [
     tagIcon="car"
     sub="Servicio de transporte premium, 24 horas a nivel nacional."
     msg={msg}
+    photo={{ src: '/fotos/transporte-conductor.webp', alt: 'Conductor sonriente saludando desde un carro azul', cutout: true }}
   />
 
   <section class="sec">
@@ -54,15 +56,18 @@ const vehiculos = [
   </section>
 
   <section class="sec alt">
-    <div class="wrap">
+    <div class="wrap two mid">
+      <div>
       <div class="head">
         <h2 class="h2">Vehículos disponibles</h2>
       </div>
-      <div class="grid3">
+      <div class="grid2">
         {vehiculos.map((v) => (
           <div class="tile"><Icon name={v.t === 'Buses' || v.t === 'Minivan' ? 'bus' : 'car'} size={22} /><span>{v.t}{v.d && <small class="tile-sub">{v.d}</small>}</span></div>
         ))}
       </div>
+      </div>
+      <Foto class="cut-img" src="/fotos/transporte-camion.webp" alt="Camión de carga blanco" />
     </div>
   </section>
 

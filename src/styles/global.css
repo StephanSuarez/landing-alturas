@@ -118,6 +118,7 @@ a:hover { text-decoration: underline; }
 .photo { width: 100%; min-height: 460px; border-radius: 20px; background: var(--navy-2); object-fit: cover; }
 .photo.ph { display: flex; align-items: flex-end; padding: 20px; color: #9FB0C6; font-size: 13px; font-weight: 600; }
 .photo.md { min-height: 360px; }
+.hero .photo.md { height: 460px; }
 
 /* Portada a todo el ancho: la foto es el fondo y un degradado deja legible el texto */
 .hero-full { position: relative; overflow: hidden; isolation: isolate; }
@@ -126,13 +127,14 @@ a:hover { text-decoration: underline; }
 .hero-inner { min-height: 620px; display: flex; align-items: center; padding-block: 72px; }
 .hero-inner .stack { max-width: 580px; }
 
-/* Resumen del portafolio en la portada de inicio */
-.qcats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.qcat { display: flex; flex-direction: column; gap: 14px; padding: 22px; border-radius: 18px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #FFFFFF; min-height: 150px; }
-.qcat:hover { background: rgba(255, 255, 255, 0.1); text-decoration: none; }
-.qcat svg { color: var(--green); }
-.qcat b { font-size: 17px; line-height: 1.25; }
-.qcat span { margin-top: auto; font-size: 13px; color: var(--on-navy); font-weight: 600; }
+/* Foto recortada del brochure: persona u objeto sobre un círculo del tono del servicio */
+.hero.with-cut { align-items: end; padding-bottom: 0; }
+.hero.with-cut > .stack { align-self: center; padding-bottom: 64px; }
+.cutout { position: relative; isolation: isolate; display: flex; justify-content: center; align-items: flex-end; height: 500px; }
+.cutout::before { content: ""; position: absolute; z-index: -1; left: 50%; bottom: 32px; width: min(420px, 90%); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: var(--ac); opacity: 0.22; }
+.soft .cutout::before { background: #FFFFFF; opacity: 0.85; }
+.cutout .photo, .cut-img { width: auto; max-width: 100%; height: 100%; min-height: 0; object-fit: contain; object-position: bottom center; background: none; border-radius: 0; }
+.cut-img { height: auto; max-height: 360px; margin-inline: auto; }
 .ally { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--on-navy); }
 .ally b { color: #FFFFFF; }
 .soft .ally, .sec .ally { color: var(--muted); }
@@ -307,9 +309,8 @@ summary::-webkit-details-marker { display: none; }
   .cta svg, .ghost svg, .btn2 svg { transition: transform 0.15s ease-out; }
   .cta:hover svg:last-child:not(:first-child), .ghost:hover svg, .btn2:hover svg { transform: translateX(3px); }
 
-  .course, .card, .qcat { transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out; }
+  .course, .card { transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out; }
   .course:hover, a.card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(16, 24, 40, 0.1); }
-  .qcat:hover { transform: translateY(-2px); }
   .course .photo, .imgcard .photo { transition: transform 0.45s ease-out; }
   .course:hover .photo, .imgcard:hover .photo { transform: scale(1.04); }
   .mega[open] .mega-panel { animation: aparece 0.18s ease-out; }
@@ -348,6 +349,8 @@ summary::-webkit-details-marker { display: none; }
   .grid5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .fcols { grid-template-columns: 1fr 1fr; }
   .hero { grid-template-columns: 1fr; gap: 32px; min-height: 0; }
+  .hero.with-cut > .stack { padding-bottom: 0; }
+  .cutout { height: 400px; }
 }
 
 @media (max-width: 700px) {
@@ -363,12 +366,14 @@ summary::-webkit-details-marker { display: none; }
   .h1 { font-size: 36px; }
   .lead { font-size: 17px; }
   .photo, .photo.md { min-height: 220px; }
+  .hero .photo.md { height: 280px; }
   .h2 { font-size: 24px; }
   .sec { padding-block: 48px; }
   .actions { width: 100%; }
   .actions > * { flex: 1 1 auto; }
   .two, .faqgrid, .fr, .grid2, .grid3, .grid4, .grid5, .courses, .centers, .levels { grid-template-columns: 1fr; }
-  .qcats { display: none; }
+  .cutout { height: 300px; }
+  .cut-img { max-height: 240px; }
   .catalog { grid-template-columns: 1fr; gap: 10px; }
   .cat summary { padding: 16px 18px; }
   .cat[open] summary { padding-bottom: 8px; }

@@ -4,7 +4,7 @@ import Icon from '../components/Icon.astro';
 import Hero from '../components/Hero.astro';
 import Catalog from '../components/Catalog.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { categorias, conceptos, RED_NACIONAL } from '../data/site';
+import { conceptos, RED_NACIONAL } from '../data/site';
 
 // Beneficios del brief.
 const beneficios = [
@@ -28,17 +28,9 @@ const beneficios = [
     sub="Salud ocupacional, seguridad, bienestar y servicios especializados con cobertura nacional."
     text="En Línea+Vital protegemos lo que realmente impulsa a las empresas: su gente. Somos especialistas en salud ocupacional, seguridad industrial y bienestar laboral, conectando salud, seguridad y bienestar con soluciones integrales para empresas y trabajadores."
     second={{ label: 'Conoce nuestros servicios', href: '#servicios' }}
+    photo={{ src: '/fotos/inicio-contacto.webp', alt: 'Mano sosteniendo un celular con la imagen de Línea+Vital', cutout: true }}
   >
     <p class="ally"><Icon name="shield" size={18} /> Alianza estratégica con <b>Salud Total EPS</b></p>
-    <div class="qcats" slot="aside">
-      {categorias.map((c) => (
-        <a class="qcat" href={`#${c.id}`}>
-          <Icon name={c.icon} size={26} />
-          <b>{c.titulo}</b>
-          <span>{c.items.length} servicios</span>
-        </a>
-      ))}
-    </div>
   </Hero>
 
   <section class="sec alt" id="servicios">
