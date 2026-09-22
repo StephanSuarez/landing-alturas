@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero información sobre los planes exequiales y de repatriación.';
+
+const plan = ['Velación en sede o casa', 'Cofre', 'Arreglo floral', 'Transporte para la familia', 'Trámites legales'];
+
+const requisitos = [
+  'Afiliación activa',
+  'Documentos del fallecido y del solicitante',
+  'Certificado médico o registro civil de defunción',
+  'Autorización escrita del familiar responsable',
+  'Confirmación del lugar del sepelio',
+];
+---
+
+<Base
+  title="Servicios Exequiales y Repatriación | Línea+Vital"
+  description="Planes de servicios exequiales nacionales y opciones de repatriación internacional."
+  tema="exequias"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Servicios exequiales"
+    tag="Planes nacionales · Repatriación"
+    tagIcon="sprout"
+    sub="Acompañamiento cuando más se necesita"
+    text="Contamos con planes de servicios exequiales y opciones de repatriación."
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <span class="kicker">Planes nacionales</span>
+        <h2 class="h2">Lo que incluyen nuestros servicios</h2>
+        <ul class="checks">
+          {plan.map((p) => <li><i><Icon name="check" size={14} /></i>{p}</li>)}
+        </ul>
+      </div>
+      <div class="panel" style="background: var(--ac-soft); border-color: transparent;">
+        <span class="kicker"><Icon name="globe" size={16} /> Repatriación internacional</span>
+        <p class="lead">Servicio para repatriar seres queridos desde diferentes partes del mundo hacia su país de origen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Requisitos para la repatriación</h2>
+      </div>
+      <div class="grid3">
+        {requisitos.map((r) => <div class="tile"><Icon name="doc" size={20} />{r}</div>)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="¿Necesitas orientación?" text="Un asesor te explica los planes y el proceso." msg={msg} />
+</Base>

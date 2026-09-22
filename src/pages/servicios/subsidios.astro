@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero consultar sobre subsidios y beneficios.';
+
+const servicios = [
+  { icon: 'doc', t: 'Adjudicación y reclamo' },
+  { icon: 'home', t: 'Compra y/o mejoramiento de vivienda' },
+  { icon: 'shield', t: 'Desempleo' },
+  { icon: 'users', t: 'Cuota monetaria para hijos y adultos mayores' },
+  { icon: 'trend', t: 'Reconocimiento y retiro de cesantías' },
+  { icon: 'scale', t: 'Trámites legales relacionados con concesión de beneficios' },
+];
+---
+
+<Base
+  title="Subsidios y Beneficios | Línea+Vital"
+  description="Acompañamiento en la gestión de subsidios de vivienda, desempleo, cuota monetaria, cesantías y otros beneficios."
+  tema="subsidios"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Subsidios y"
+    hl="beneficios"
+    tag="Subsidios · Compensación"
+    tagIcon="home"
+    sub="Te acompañamos en la gestión de diferentes trámites y beneficios"
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Trámites y beneficios</h2>
+      </div>
+      <div class="grid3">
+        {servicios.map((s) => <div class="tile"><Icon name={s.icon} size={22} />{s.t}</div>)}
+      </div>
+      <p class="note">Te orientamos en la gestión del trámite. La aprobación de cada beneficio depende de la entidad que lo otorga y de los requisitos de cada caso.</p>
+    </div>
+  </section>
+
+  <CtaBand title="Consultar beneficios" text="Cuéntanos tu caso y te orientamos sobre el trámite." label="Consultar beneficios" msg={msg} />
+</Base>

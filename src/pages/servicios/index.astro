@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Catalog from '../../components/Catalog.astro';
+import CtaBand from '../../components/CtaBand.astro';
+---
+
+<Base
+  title="Servicios | Línea+Vital"
+  description="Salud ocupacional, capacitación y certificación, seguridad social y otros servicios para empresas, trabajadores y familias."
+>
+  <Hero
+    title="Nuestros"
+    hl="servicios"
+    tag="Portafolio integral"
+    tagIcon="cert"
+    sub="Nuestro portafolio integra diferentes soluciones para empresas, trabajadores y familias."
+  />
+
+  <section class="sec alt">
+    <div class="wrap">
+      <Catalog />
+    </div>
+  </section>
+
+  <CtaBand
+    title="¿No sabes por dónde empezar?"
+    text="Cuéntanos qué necesitas y te orientaremos sobre el proceso."
+  />
+</Base>

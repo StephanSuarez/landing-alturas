@@ -1,0 +1,109 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { paginas, ruta } from '../../data/site';
+
+const msg = 'Hola, quiero información sobre los exámenes de salud ocupacional.';
+
+// Textos del brief; los detalles entre paréntesis vienen de ENGAGED BPO CALI.pdf (págs. 3 a 5).
+const examenes = [
+  { id: 'ingreso', icon: 'clipboard', t: 'Examen médico ocupacional de ingreso',
+    d: 'Evaluación médica realizada antes de la contratación para determinar la compatibilidad del estado de salud del aspirante con las tareas del cargo y detectar condiciones preexistentes que puedan verse afectadas por el trabajo.' },
+  { id: 'aptitud-alturas', icon: 'helmet', t: 'Examen de aptitud en alturas',
+    d: 'Evaluación orientada a determinar la aptitud física para realizar trabajos en alturas.',
+    extra: 'Incluye evaluación del equilibrio, la coordinación, el sistema cardiovascular y la visión.' },
+  { id: 'psicosensometrico', icon: 'eye', t: 'Examen psicosensométrico',
+    d: 'Evalúa capacidades relacionadas con visión, audición, reacción, coordinación bimanual y otros aspectos asociados al desempeño de conductores y operadores de maquinaria.' },
+  { id: 'osteomuscular', icon: 'body', t: 'Examen osteomuscular',
+    d: 'Evaluación enfocada en huesos, músculos, articulaciones y tendones, especialmente frente a actividades de carga física, posturas prolongadas o movimientos repetitivos.' },
+  { id: 'manipulacion', icon: 'food', t: 'Examen de manipulación de alimentos',
+    d: 'Incluye evaluaciones relacionadas con garganta, uñas y coprológico.',
+    link: { label: 'Ver curso y examen', href: paginas.alimentos.href } },
+  { id: 'toxicologico', icon: 'drop', t: 'Examen toxicológico',
+    d: 'Prueba química para detectar determinadas sustancias psicoactivas, de acuerdo con las políticas de seguridad de la empresa.',
+    extra: 'Generalmente se realiza con muestra de orina.' },
+  { id: 'incapacidades', icon: 'doc', t: 'Gestión de incapacidades',
+    d: 'Gestión, validación y/o emisión de documentos relacionados con incapacidades por enfermedad o accidente.' },
+];
+
+// ENGAGED BPO CALI.pdf, pág. 3.
+const requisitos = [
+  'Imagen del documento de identidad por ambas caras',
+  'Foto tipo selfie de medio cuerpo, con fondo o pared clara',
+  'Dirección de domicilio, ciudad y departamento',
+  'Cargo y peso, e indicar si presenta alguna condición médica especial',
+  'Número de contacto',
+  'Información de EPS, AFP y ARL',
+  'Fecha del examen',
+  'Tipo de examen a gestionar',
+];
+
+// Brochure, pág. 2.
+const tips = ['No consumir alcohol', 'No hacer ejercicio', 'Ayuno, si aplica', 'Ropa cómoda', 'No fumar ni masticar chicle en el momento del examen'];
+---
+
+<Base
+  title="Salud Ocupacional | Línea+Vital"
+  description="Servicios de salud ocupacional y medicina laboral para empresas y trabajadores."
+  tema="salud"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Salud ocupacional"
+    tag="IPS · Medicina laboral"
+    tagIcon="steth"
+    sub="Evaluamos y acompañamos la salud de los trabajadores"
+    text="Contamos con servicios de medicina laboral y salud ocupacional para apoyar los procesos de ingreso, trabajo en alturas, evaluaciones específicas y diferentes necesidades empresariales."
+    msg={msg}
+    second={{ label: 'Ver exámenes', href: '#examenes' }}
+  />
+
+  <section class="sec" id="examenes">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Exámenes y servicios</h2>
+        <p class="sub">Todo examen puede ser verificado ante la IPS correspondiente.</p>
+      </div>
+      <div class="grid3">
+        {examenes.map((e) => (
+          <article class="card" id={e.id} style="scroll-margin-top: 96px">
+            <span class="ico"><Icon name={e.icon} size={22} /></span>
+            <h3>{e.t}</h3>
+            <p>{e.d}</p>
+            {e.extra && <p class="extra">{e.extra}</p>}
+            {e.link && <a class="link" href={ruta(e.link.href)}>{e.link.label} <Icon name="arrow" size={14} /></a>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap two">
+      <div class="panel">
+        <span class="kicker"><Icon name="clipboard" size={16} /> Para gestionar tu examen</span>
+        <h2 class="h2">Qué necesitamos</h2>
+        <ul class="checks">
+          {requisitos.map((r) => <li><i><Icon name="check" size={14} /></i>{r}</li>)}
+        </ul>
+      </div>
+      <div class="panel">
+        <span class="kicker"><Icon name="info" size={16} /> Antes del examen</span>
+        <h2 class="h2">Recomendaciones</h2>
+        <ul class="checks">
+          {tips.map((r) => <li><i><Icon name="check" size={14} /></i>{r}</li>)}
+        </ul>
+        <p class="info"><Icon name="helmet" size={18} /><span>¿Vas a hacer un curso de alturas? El examen médico debe estar vigente el día del curso. <a href={ruta(paginas.alturas.href)}>Ver trabajo seguro en alturas</a></span></p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="¿Necesitas agendar un examen?"
+    text="Habla con nuestro equipo y recibe orientación sobre el proceso."
+    msg={msg}
+  />
+</Base>

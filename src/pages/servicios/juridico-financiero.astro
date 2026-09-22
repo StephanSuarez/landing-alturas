@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero solicitar asesoría jurídica o financiera.';
+
+const juridico = ['Defensa legal', 'Redacción de tutelas', 'Redacción de derechos de petición', 'Presentación y contestación de demandas'];
+const financiero = [
+  'Trámites para establecimientos de comercio', 'Gestión de RUT', 'Trámites tributarios', 'Cámara de Comercio',
+  'Concepto de bomberos', 'Uso de suelo', 'Certificado de sanidad', 'SAYCO & ACINPRO',
+];
+---
+
+<Base
+  title="Servicios Jurídicos y Financieros | Línea+Vital"
+  description="Acompañamiento en tutelas, derechos de petición, demandas, RUT, trámites tributarios y trámites para establecimientos de comercio."
+  tema="juridico"
+  msg={msg}
+>
+  <Hero
+    title="Servicios jurídicos"
+    hl="y financieros"
+    tag="Legal · Empresarial · Administrativo"
+    tagIcon="scale"
+    sub="Acompañamiento para trámites legales, empresariales y administrativos"
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap grid2">
+      <div class="panel">
+        <span class="kicker"><Icon name="scale" size={16} /> Jurídico</span>
+        <h2 class="h2">Trámites legales</h2>
+        <ul class="checks">
+          {juridico.map((j) => <li><i><Icon name="check" size={14} /></i>{j}</li>)}
+        </ul>
+      </div>
+      <div class="panel">
+        <span class="kicker"><Icon name="building" size={16} /> Financiero y empresarial</span>
+        <h2 class="h2">Trámites empresariales</h2>
+        <ul class="checks">
+          {financiero.map((f) => <li><i><Icon name="check" size={14} /></i>{f}</li>)}
+        </ul>
+        <p class="note">Los trámites para establecimientos de comercio se realizan según el artículo 87 de la Ley 1801, Código Nacional de Policía.</p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Solicitar asesoría" text="Cuéntanos tu caso y te orientamos sobre el trámite." label="Solicitar asesoría" msg={msg} />
+</Base>

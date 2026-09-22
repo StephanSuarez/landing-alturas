@@ -1,0 +1,15 @@
+---
+// Botón estándar de WhatsApp. Todos apuntan al mismo número (regla del brief).
+import Icon from './Icon.astro';
+import { wa } from '../data/site';
+
+interface Props {
+  msg?: string;
+  label?: string;
+  class?: string;
+}
+
+const { msg, label = 'Hablar con un asesor', class: cls } = Astro.props;
+---
+
+<a class:list={['cta', cls]} href={wa(msg)} target="_blank" rel="noopener"><Icon name="wa" size={18} /> {label}</a>

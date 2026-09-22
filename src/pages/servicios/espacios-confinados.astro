@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import Foto from '../../components/Foto.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { paginas, ruta } from '../../data/site';
+
+const msg = 'Hola, quiero información sobre la formación en espacios confinados.';
+
+// Niveles: brief y ENGAGED BPO CALI.pdf, pág. 2. El brief no da la duración del nivel administrativo.
+const niveles = [
+  { t: 'Administrativo', d: 'Consulta con un asesor los detalles de este nivel.' },
+  { t: 'Vigía / Entrante', d: 'Mínimo 20 horas, teórico-práctico.' },
+  { t: 'Supervisor', d: '40 horas.' },
+  { t: 'Entrenador', d: 'Nivel profesional, con experiencia y certificados en rescate y primeros auxilios (mínimo 40 horas).' },
+];
+
+// Temas del brochure, pág. 3.
+const temas = ['Riesgos y ventilación', 'Ingreso seguro y rescate', 'Equipos de respiración autónoma'];
+
+const requisitos = [
+  { t: 'Copia de cédula' },
+  { t: 'Seguridad social vigente' },
+  { t: 'Certificado médico de aptitud específico para espacios confinados', d: 'Con menos de 1 año.' },
+  { t: 'Certificado de alturas vigente, cuando sea requerido', d: 'Es común que los centros lo exijan, porque muchos espacios confinados requieren descenso.' },
+];
+---
+
+<Base
+  title="Espacios Confinados | Línea+Vital"
+  description="Formación para trabajos en espacios confinados con diferentes niveles de capacitación."
+  tema="confinados"
+  msg={msg}
+>
+  <Hero
+    title="Espacios"
+    hl="confinados"
+    tag="Resolución 0491 de 2020"
+    tagIcon="shield"
+    sub="Formación para trabajos en espacios con acceso y salida restringidos"
+    text="La capacitación está orientada a trabajos realizados en lugares no diseñados para ocupación continua y con entrada y salida restringidas."
+    msg={msg}
+    second={{ label: 'Ver niveles', href: '#niveles' }}
+    photo={{ src: '/fotos/curso-espacios-confinados.webp', alt: 'Escena ilustrativa de un trabajador en la entrada de un espacio confinado', pos: '50% 45%' }}
+  />
+
+  <section class="sec alt" id="niveles">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Niveles de formación</h2>
+        <p class="sub">El reentrenamiento es obligatorio cada vez que cambien las condiciones de trabajo o los equipos.</p>
+      </div>
+      <ol class="levels">
+        {niveles.map((n) => <li class="level"><h3>{n.t}</h3><p>{n.d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <h2 class="h2">Requisitos de ingreso</h2>
+        <ul class="checks">
+          {requisitos.map((r) => <li><i><Icon name="check" size={14} /></i><span>{r.t}{r.d && <small>{r.d}</small>}</span></li>)}
+        </ul>
+        <p class="info"><Icon name="info" size={18} /><span>¿Te falta algún certificado? <a href={ruta(paginas.salud.href)}>Exámenes médicos</a> · <a href={ruta(paginas.alturas.href)}>Curso de alturas</a></span></p>
+      </div>
+      <div class="panel">
+        <span class="kicker"><Icon name="ladder" size={16} /> En la formación</span>
+        <h3 class="h3">Qué se trabaja</h3>
+        <ul class="checks">
+          {temas.map((t) => <li><i><Icon name="check" size={14} /></i>{t}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Solicita información sobre espacios confinados" msg={msg} />
+</Base>

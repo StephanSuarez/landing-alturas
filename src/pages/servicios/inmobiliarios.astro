@@ -1,0 +1,45 @@
+---
+// Fuente única: brochure, pág. 13. El brief no trae textos para esta página.
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero información sobre los servicios inmobiliarios.';
+
+const servicios = [
+  { icon: 'home', t: 'Compra, venta y arriendo de inmuebles' },
+  { icon: 'trend', t: 'Avalúos y publicidad' },
+  { icon: 'building', t: 'Administración de propiedades' },
+  { icon: 'helmet', t: 'Obras civiles y remodelaciones' },
+  { icon: 'compass', t: 'Diseños, planos y presentación de proyectos de vivienda' },
+  { icon: 'pin', t: 'Topografía y subdivisión de terrenos' },
+  { icon: 'scale', t: 'Asesoría jurídica en temas inmobiliarios' },
+  { icon: 'users', t: 'Apoyo en nuevos proyectos empresariales' },
+];
+---
+
+<Base
+  title="Servicios Inmobiliarios | Línea+Vital"
+  description="Compra, venta y arriendo de inmuebles, avalúos, administración de propiedades y proyectos de vivienda. Ricaurte, Cundinamarca."
+  tema="inmobiliarios"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Servicios"
+    hl="inmobiliarios"
+    tag="Ricaurte, Cundinamarca"
+    tagIcon="pin"
+    sub="Central de nuevos proyectos inmobiliaria en Ricaurte, Cundinamarca."
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap grid2">
+      {servicios.map((s) => <div class="tile"><Icon name={s.icon} size={22} />{s.t}</div>)}
+    </div>
+  </section>
+
+  <CtaBand title="¿Buscas o tienes un inmueble?" text="Cuéntanos qué necesitas y te orientamos." msg={msg} />
+</Base>

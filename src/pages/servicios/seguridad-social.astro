@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero asesoría en seguridad social.';
+
+const componentes = [
+  { id: 'eps', sigla: 'EPS', nombre: 'Entidad Promotora de Salud' },
+  { id: 'arl', sigla: 'ARL', nombre: 'Aseguradores de Riesgos Laborales' },
+  { id: 'afp', sigla: 'AFP', nombre: 'Administradora de Fondo de Pensiones' },
+  { id: 'ccf', sigla: 'CCF', nombre: 'Caja de Compensación Familiar' },
+];
+
+const soluciones = [['EPS'], ['EPS', 'ARL'], ['EPS', 'AFP'], ['EPS', 'AFP', 'ARL'], ['EPS', 'AFP', 'CCF', 'ARL']];
+---
+
+<Base
+  title="Seguridad Social | Línea+Vital"
+  description="Gestión de EPS, ARL, AFP y caja de compensación familiar para trabajadores. Alianza con Salud Total EPS."
+  tema="social"
+  msg={msg}
+>
+  <Hero
+    title="Seguridad"
+    hl="social"
+    tag="EPS · ARL · AFP · CCF"
+    tagIcon="shield"
+    sub="Gestionamos soluciones para la protección social de trabajadores"
+    msg={msg}
+    second={{ label: 'Ver soluciones', href: '#soluciones' }}
+  >
+    <p class="ally"><Icon name="shield" size={18} /> Alianza estratégica con <b>Salud Total EPS</b></p>
+  </Hero>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Los componentes de la seguridad social</h2>
+      </div>
+      <div class="grid4">
+        {componentes.map((c) => (
+          <div class="card" id={c.id} style="scroll-margin-top: 96px">
+            <span class="acr">{c.sigla}</span>
+            <p>{c.nombre}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="soluciones">
+    <div class="wrap two mid">
+      <div>
+        <h2 class="h2">Soluciones</h2>
+        <p class="sub">Elige la combinación que necesitas. Las opciones con ARL se gestionan según el nivel de riesgo, del 1 al 5.</p>
+      </div>
+      <div class="combos">
+        {soluciones.map((s) => (
+          <div class="combo">
+            {s.map((x, i) => <>{i > 0 && <span class="plus">+</span>}<span class="pill">{x}</span></>)}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Quiero asesoría en seguridad social" text="Un asesor te explica el proceso de afiliación." msg={msg} />
+</Base>

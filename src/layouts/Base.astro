@@ -1,23 +1,43 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-import { wa, WHATSAPP_VISIBLE, redes, ruta } from '../data/site';
+import Asesor from '../components/Asesor.astro';
+import { ruta, redes, categorias, paginas, telefonos, tel, CORREO, FRASE, wa } from '../data/site';
 
 interface Props {
   title: string;
   description: string;
+  image?: string; // imagen para redes (Open Graph), 1200×630
+  tema?: string; // tono del servicio: clase t-<tema> en global.css
+  msg?: string; // mensaje con el que abre WhatsApp desde esta página
 }
 
-const { title, description } = Astro.props;
+const { title, description, image = '/og.jpg', tema, msg } = Astro.props;
 
 const nav = [
-  { label: 'Inicio', href: '/' },
   { label: 'Nosotros', href: '/nosotros' },
-  { label: 'Precios', href: '/precios' },
+  { label: 'Cobertura', href: '/cobertura' },
   { label: 'Contacto', href: '/contacto' },
 ];
 const sinBarra = (p: string) => p.replace(/\/$/, '') || '/';
 const actual = sinBarra(Astro.url.pathname);
+const es = (href: string) => (sinBarra(ruta(href)) === actual ? 'page' : undefined);
+const enServicios = actual.startsWith(ruta('/servicios'));
+
+const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site).href;
+const ogImage = new URL(ruta(image), Astro.site).href;
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Línea+Vital',
+  url: new URL(ruta('/'), Astro.site).href,
+  logo: new URL(ruta('/logo.png'), Astro.site).href,
+  email: CORREO,
+  areaServed: 'CO',
+  contactPoint: telefonos.map((t) => ({ '@type': 'ContactPoint', telephone: `+57 ${t.numero}`, contactType: 'customer service', areaServed: 'CO', availableLanguage: 'es' })),
+  sameAs: [redes.instagram, redes.tiktok, redes.facebook].filter(Boolean),
+};
 ---
 
 <!doctype html>
@@ -27,53 +47,104 @@ const actual = sinBarra(Astro.url.pathname);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0F1F3D" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Línea+Vital" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href={ruta('/favicon.png')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" />
+    <script type="application/ld+json" set:html={JSON.stringify(org)} />
   </head>
-  <body>
-    <header class="topbar">
-      <div class="wrap">
-        <a href={ruta('/')} aria-label="Línea Vital, inicio"><img src={ruta('/logo.png')} alt="Línea Vital" width="167" height="38" /></a>
-        <nav class="nav" aria-label="Principal">
-          {nav.map((n) => <a href={ruta(n.href)} aria-current={sinBarra(ruta(n.href)) === actual ? 'page' : undefined}>{n.label}</a>)}
+  <body class={tema ? `t-${tema}` : undefined}>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <header class="topbar" data-topbar>
+      <div class="wrap bar">
+        <a class="brand" href={ruta('/')} aria-label="Línea+Vital, inicio"><img src={ruta('/logo.png')} alt="Línea+Vital" width="167" height="38" /></a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menú" data-menu-btn>
+          <Icon name="menu" size={24} class="i-open" /><Icon name="close" size={24} class="i-close" />
+        </button>
+        <nav class="nav" id="menu" aria-label="Principal">
+          <a href={ruta('/')} aria-current={es('/')}>Inicio</a>
+          <details class="mega" data-mega>
+            <summary class:list={{ on: enServicios }}>Servicios <Icon name="chev" size={16} /></summary>
+            <div class="mega-panel">
+              <div class="wrap mega-grid">
+                {categorias.map((c) => (
+                  <div class="mcol">
+                    <a class="mhead" href={ruta(c.href)}><Icon name={c.icon} size={18} /> {c.titulo}</a>
+                    <ul>{c.items.map((it) => <li><a href={ruta(it.href)}>{it.nombre}</a></li>)}</ul>
+                  </div>
+                ))}
+              </div>
+              <div class="wrap mega-foot"><a href={ruta('/servicios')}>Ver todos los servicios <Icon name="arrow" size={16} /></a></div>
+            </div>
+          </details>
+          {nav.map((n) => <a href={ruta(n.href)} aria-current={es(n.href)}>{n.label}</a>)}
         </nav>
-        <a class="cta sm" href={wa()} target="_blank" rel="noopener"><Icon name="wa" size={18} /> Hablar por WhatsApp</a>
+        <Asesor class="sm bar-cta" msg={msg} />
       </div>
     </header>
 
-    <main><slot /></main>
+    <main id="contenido"><slot /></main>
 
     <footer class="footer">
+      <div class="wrap"><p class="frase">{FRASE}</p></div>
       <div class="wrap fcols">
         <div class="fcol">
-          <img src={ruta('/logo.png')} alt="Línea Vital" width="176" height="40" />
-          <span>Cobertura nacional</span>
-          <span>Sisoconstruavaluos · NIT 901.155.855-4</span>
+          <a class="flogo" href={ruta('/')}><img src={ruta('/logo.png')} alt="Línea+Vital" width="167" height="38" loading="lazy" /></a>
+          <span>Soluciones integrales para empresas y personas.</span>
+          <span>Cobertura y servicio a nivel nacional.</span>
+          <span>Alianza con Salud Total EPS.</span>
         </div>
+        <nav class="fcol" aria-label="Servicios">
+          <h2>Servicios</h2>
+          {[paginas.salud, paginas.alturas, paginas.confinados, paginas.alimentos, paginas.social, paginas.vehiculares].map((pg) => <a href={ruta(pg.href)}>{pg.nombre}</a>)}
+          <a href={ruta('/servicios')}>Todos los servicios ›</a>
+        </nav>
+        <nav class="fcol" aria-label="Línea+Vital">
+          <h2>Línea+Vital</h2>
+          <a href={ruta('/')}>Inicio</a>
+          {nav.map((n) => <a href={ruta(n.href)}>{n.label}</a>)}
+        </nav>
         <div class="fcol">
-          <a href={wa()} target="_blank" rel="noopener" class="inline"><Icon name="wa" size={16} /> {WHATSAPP_VISIBLE}</a>
+          <h2>Contacto</h2>
+          {telefonos.map((t) => <a href={tel(t.numero)}>{t.numero}{t.nota && ` · ${t.nota}`}</a>)}
+          <a href={`mailto:${CORREO}`}>{CORREO}</a>
           <a href={redes.instagram} target="_blank" rel="noopener">Instagram @lineavitalco</a>
           <a href={redes.tiktok} target="_blank" rel="noopener">TikTok @lineavitalco</a>
           {redes.facebook ? <a href={redes.facebook} target="_blank" rel="noopener">Facebook Linea Vital</a> : <span>Facebook Linea Vital</span>}
         </div>
-        <nav class="fcol" aria-label="Pie de página">
-          {nav.map((n) => <a href={ruta(n.href)}>{n.label}</a>)}
-        </nav>
       </div>
-      <div class="wrap"><p class="copy">© {new Date().getFullYear()} Línea Vital. Todos los derechos reservados.</p></div>
+      <div class="wrap"><p class="copy">© {new Date().getFullYear()} Línea+Vital · Sisoconstruavaluos · NIT 901.155.855-4</p></div>
     </footer>
 
-    <a class="wa-float" href={wa()} target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><Icon name="wa" size={28} /></a>
-    <div class="bottombar">
-      <a class="cta block" href={wa()} target="_blank" rel="noopener"><Icon name="wa" /> Hablar por WhatsApp</a>
-    </div>
+    <a class="wa-float" href={wa(msg)} target="_blank" rel="noopener" aria-label="Hablar con un asesor por WhatsApp"><Icon name="wa" size={28} /></a>
+    <div class="bottombar"><Asesor class="block" msg={msg} /></div>
 
     <script>
+      // Menú: botón en celular, desplegable de servicios en escritorio. Escape y clic afuera cierran.
+      const bar = document.querySelector<HTMLElement>('[data-topbar]')!;
+      const btn = bar.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+      const mega = bar.querySelector<HTMLDetailsElement>('[data-mega]')!;
+      const abrir = (si: boolean) => { bar.classList.toggle('open', si); btn.setAttribute('aria-expanded', String(si)); };
+      btn.addEventListener('click', () => abrir(!bar.classList.contains('open')));
+      document.addEventListener('click', (e) => { if (mega.open && !mega.contains(e.target as Node) && !btn.contains(e.target as Node) && matchMedia('(min-width: 961px)').matches) mega.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { mega.open = false; abrir(false); } });
+      bar.querySelectorAll('.nav a').forEach((a) => a.addEventListener('click', () => { mega.open = false; abrir(false); }));
+
       // Las secciones aparecen al llegar a ellas. Sin JS, o con "reducir movimiento"
       // activado en el sistema, todo se ve igual pero sin animar.
-      const sel = '.sec .h2, .sec .sub, .icons li, .imgcard, .checks li, .panel, .info, .incl > .photo, .course, .more, .faq details, .sec .form, .pillar, .pdet';
+      const sel = '.sec .h2, .sec .sub, .card, .cat, .course, .tile, .checks li, .panel, .info, .band, .faq details, .sec .form, .level, .center, .imgcard';
 
       if (matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
@@ -89,6 +160,7 @@ const actual = sinBarra(Astro.url.pathname);
         }, { rootMargin: '0px 0px -8% 0px' });
 
         document.querySelectorAll<HTMLElement>(sel).forEach((el) => {
+          if (el.closest('.hero-sec, .topbar')) return;
           const hermanos = Array.from(el.parentElement?.children ?? []).filter((h) => h.matches(sel));
           el.style.setProperty('--d', `${Math.min(hermanos.indexOf(el), 5) * 60}ms`);
           el.classList.add('rv');

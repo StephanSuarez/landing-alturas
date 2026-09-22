@@ -1,0 +1,47 @@
+---
+// Fuente única: brochure, pág. 10. El brief no trae textos para esta página.
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero información sobre diseño gráfico, contenido y desarrollo web.';
+
+const grupos = [
+  { icon: 'pen', t: 'Creación de marca', items: ['Diseño de logotipo e identidad', 'Diseño de material POP (tarjetas de presentación, avisos, pendones, etc.)', 'Diseño de portafolios'] },
+  { icon: 'eye', t: 'Contenido para redes sociales', items: ['Post para redes sociales', 'Fotografía profesional', 'Videografía corporativa'] },
+  { icon: 'globe', t: 'Diseño y desarrollo web', items: ['Diseño y desarrollo de página web estática profesional', 'Diseño y desarrollo de tiendas online'] },
+];
+---
+
+<Base
+  title="Diseño Gráfico, Contenido y Web | Línea+Vital"
+  description="Creación de marca, material POP, contenido para redes sociales, fotografía, videografía y desarrollo de páginas web y tiendas online."
+  tema="web"
+  msg={msg}
+>
+  <Hero
+    title="Diseño gráfico, contenido"
+    hl="y desarrollo web"
+    tag="Marca · Redes · Web"
+    tagIcon="pen"
+    sub="Creación de marca, contenido para redes sociales y diseño y desarrollo web."
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap grid3">
+      {grupos.map((g) => (
+        <div class="panel">
+          <span class="ci"><Icon name={g.icon} size={22} /></span>
+          <h2 class="h3" style="margin-top: 14px;">{g.t}</h2>
+          <ul class="checks">
+            {g.items.map((i) => <li><i><Icon name="check" size={14} /></i>{i}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand title="¿Quieres impulsar tu marca?" text="Cuéntanos qué necesitas y te orientamos." msg={msg} />
+</Base>

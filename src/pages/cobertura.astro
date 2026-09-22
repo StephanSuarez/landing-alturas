@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { centros, paginas, ruta } from '../data/site';
+
+// Ciudades respaldadas por los PDF: centros de capacitación (ENGAGED BPO CALI.pdf, pág. 6)
+// y servicios inmobiliarios en Ricaurte (brochure, pág. 13). No hay sedes ni direcciones propias en las fuentes.
+const deptos = [...new Set(centros.map((c) => c.depto))].map((d) => ({
+  depto: d,
+  ciudades: centros.filter((c) => c.depto === d).map((c) => c.ciudad),
+}));
+---
+
+<Base
+  title="Cobertura | Línea+Vital"
+  description="Cobertura y servicio a nivel nacional, con aliados en diferentes ciudades de Colombia."
+>
+  <Hero
+    title="Cobertura"
+    hl="nacional"
+    tag="Colombia"
+    tagIcon="globe"
+    sub="Tenemos cobertura y servicio a nivel nacional."
+    text="Acceso a servicios y aliados en diferentes ciudades de Colombia."
+  />
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head">
+        <span class="kicker"><Icon name="helmet" size={16} /> Capacitación presencial</span>
+        <h2 class="h2">Ciudades con centros de capacitación aliados</h2>
+        <p class="sub">Para cursos de trabajo seguro en alturas. <a href={ruta(paginas.alturas.href + '#centros')}>Ver centros y direcciones</a></p>
+      </div>
+      <div class="grid3">
+        {deptos.map((d) => (
+          <div class="center">
+            <span class="where"><Icon name="pin" size={14} /> {d.depto}</span>
+            <b>{d.ciudades.join(' · ')}</b>
+          </div>
+        ))}
+      </div>
+      <p class="info"><Icon name="info" size={18} />¿Necesitas capacitación presencial en otra ciudad? Escríbenos: verificamos si hay un centro cercano para extender el convenio.</p>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap two mid">
+      <div>
+        <span class="kicker"><Icon name="building" size={16} /> Servicios inmobiliarios</span>
+        <h2 class="h2">Ricaurte, Cundinamarca</h2>
+        <p class="sub">Central de nuevos proyectos inmobiliaria.</p>
+      </div>
+      <a class="card" href={ruta(paginas.inmobiliarios.href)}>
+        <span class="ico"><Icon name="building" size={22} /></span>
+        <h3>Servicios inmobiliarios</h3>
+        <span class="link">Ver servicios <Icon name="arrow" size={14} /></span>
+      </a>
+    </div>
+  </section>
+
+  <CtaBand title="¿En qué ciudad necesitas el servicio?" text="Cuéntanos y te confirmamos cómo podemos atenderte." />
+</Base>

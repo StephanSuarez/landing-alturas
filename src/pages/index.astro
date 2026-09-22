@@ -1,150 +1,90 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import Foto from '../components/Foto.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { wa, cop, cursos, examenes, pagos, ruta } from '../data/site';
+import Hero from '../components/Hero.astro';
+import Catalog from '../components/Catalog.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { categorias, conceptos, RED_NACIONAL } from '../data/site';
 
-const [autorizado, reentrenamiento] = cursos;
-const examenAlturas = examenes[0];
-
-// Beneficios tal como los lista el PDF de valores (Beneficios para su empresa).
+// Beneficios del brief.
 const beneficios = [
-  { icon: 'globe', texto: 'Cobertura nacional con respaldo profesional' },
-  { icon: 'shield', texto: 'Menos riesgos legales y operativos' },
-  { icon: 'wallet', texto: 'Costos optimizados' },
-  { icon: 'trend', texto: 'Más productividad' },
-  { icon: 'heart', texto: 'Mejor calidad de vida del equipo' },
-] as const;
-
-const faq = [
-  { q: '¿Qué necesito para inscribirme?', a: 'Documento de identidad, examen médico vigente, afiliación a seguridad social y RUT empresarial.' },
-  { q: '¿Cuánto dura el curso?', a: `Trabajador autorizado, ${autorizado.horas} horas. Reentrenamiento, ${reentrenamiento.horas} horas. Espacios confinados, 16 horas. Coordinador, 80 horas.` },
-  { q: '¿Ustedes hacen el examen médico?', a: `Sí. El examen de aptitud en alturas cuesta ${cop(examenAlturas.precio)} y debe estar vigente el día del curso.` },
-  { q: '¿Cómo verifico el certificado?', a: 'Todo curso se puede verificar en la página web del Ministerio de Trabajo, y todo examen ante la IPS que lo emitió.' },
-  { q: '¿Cómo pago?', a: `${pagos.join(', ')}. Los datos de pago te los enviamos por WhatsApp.` },
+  { icon: 'globe', t: 'Cobertura nacional', d: 'Acceso a servicios y aliados en diferentes ciudades de Colombia.' },
+  { icon: 'shield', t: 'Respaldo profesional', d: 'Soluciones enfocadas en salud ocupacional, seguridad y bienestar.' },
+  { icon: 'check', t: 'Prevención', d: 'Orientación para reducir riesgos legales y operativos.' },
+  { icon: 'heart', t: 'Bienestar laboral', d: 'Servicios orientados al cuidado y calidad de vida de los colaboradores.' },
+  { icon: 'trend', t: 'Productividad', d: 'Un enfoque integral para empresas y equipos de trabajo.' },
 ];
 ---
 
 <Base
-  title="Curso de trabajo en alturas | Línea Vital"
-  description={`Curso de trabajo en alturas avalado por el Ministerio de Trabajo. ${cop(autorizado.precio!)} por persona. Escríbenos por WhatsApp.`}
+  title="Línea+Vital | Soluciones integrales para empresas y personas"
+  description="Salud ocupacional, seguridad, bienestar y servicios especializados para empresas y personas con cobertura nacional."
 >
-  <section class="navy hero-full">
-    <Foto class="hero-bg" src="/fotos/hero-alturas-panoramica.webp" alt="Trabajador con arnés y una ciudad al fondo" pos="72% 40%" eager />
-    <div class="wrap hero-inner">
-      <div class="stack">
-        <span class="tag"><Icon name="shield" size={14} /> Avalado por el Ministerio de Trabajo</span>
-        <h1 class="h1">Curso de<br /><span class="g">Trabajo en Alturas</span></h1>
-        <p class="lead">Primera vez o reentrenamiento, con certificado que puedes verificar en la página del Ministerio de Trabajo.</p>
-        <div class="actions">
-          <a class="cta" href={wa('Hola, quiero información del curso de trabajo en alturas. ¿Cuál es la próxima fecha?')} target="_blank" rel="noopener">
-            <Icon name="wa" size={18} /> Hablar con un asesor <Icon name="arrow" size={16} />
-          </a>
-          <a class="ghost" href={ruta('/precios')}>Ver precios <Icon name="arrow" size={16} /></a>
-        </div>
-        <p class="hero-price"><b>{cop(autorizado.precio!)}</b> por persona · primera vez o reentrenamiento</p>
-        <ul class="feats">
-          <li><Icon name="shield" size={24} />Avalado por<br />Mintrabajo</li>
-          <li><Icon name="cert" size={24} />Certificado<br />verificable</li>
-          <li><Icon name="globe" size={24} />Cobertura<br />nacional</li>
-        </ul>
+  <Hero
+    title="Soluciones integrales para"
+    hl="empresas y personas"
+    tag="Cobertura nacional"
+    tagIcon="globe"
+    sub="Salud ocupacional, seguridad, bienestar y servicios especializados con cobertura nacional."
+    text="En Línea+Vital protegemos lo que realmente impulsa a las empresas: su gente. Somos especialistas en salud ocupacional, seguridad industrial y bienestar laboral, conectando salud, seguridad y bienestar con soluciones integrales para empresas y trabajadores."
+    second={{ label: 'Conoce nuestros servicios', href: '#servicios' }}
+  >
+    <p class="ally"><Icon name="shield" size={18} /> Alianza estratégica con <b>Salud Total EPS</b></p>
+    <div class="qcats" slot="aside">
+      {categorias.map((c) => (
+        <a class="qcat" href={`#${c.id}`}>
+          <Icon name={c.icon} size={26} />
+          <b>{c.titulo}</b>
+          <span>{c.items.length} servicios</span>
+        </a>
+      ))}
+    </div>
+  </Hero>
+
+  <section class="sec alt" id="servicios">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Todo lo que necesitas en un solo lugar</h2>
+        <p class="sub">Nuestro portafolio integra diferentes soluciones para empresas, trabajadores y familias.</p>
       </div>
+      <Catalog />
     </div>
   </section>
 
   <section class="sec">
-    <div class="wrap two">
+    <div class="wrap two mid">
       <div>
-        <h2 class="h2">¿Por qué certificarse en trabajo en alturas?</h2>
-        <p class="sub">Lo que gana tu empresa con un equipo certificado.</p>
-        <ul class="icons">
-          {beneficios.map((b) => <li><Icon name={b.icon} size={26} />{b.texto}</li>)}
-        </ul>
+        <span class="kicker">Propuesta de valor</span>
+        <h2 class="h2">Un aliado estratégico para su empresa</h2>
+        <p class="sub">Nos convertimos en un aliado estratégico de las empresas colombianas, conectando salud, seguridad y bienestar con soluciones integrales.</p>
+        <p class="info"><Icon name="users" size={18} />{RED_NACIONAL}</p>
       </div>
-      <div class="imgcard">
-        <Foto src="/fotos/instructor-practica.webp" alt="Instructor explicando una práctica a un grupo con cascos y arneses" pos="50% 30%" />
-        <div class="txt">
-          <h3>Cursos avalados por Mintrabajo</h3>
-          <p>Todo curso se puede verificar en la página web del Ministerio de Trabajo.</p>
-        </div>
+      <div class="grid2">
+        {conceptos.map((c) => <div class="tile"><Icon name={c.icon} size={22} />{c.t}</div>)}
       </div>
     </div>
   </section>
 
   <section class="sec alt">
-    <div class="wrap incl">
-      <div>
-        <h2 class="h2">¿Qué incluye el curso?</h2>
-        <p class="sub">Trabajador autorizado, para quien lo hace por primera vez.</p>
-        <ul class="checks">
-          <li><i><Icon name="check" size={14} /></i>Prevención de caídas</li>
-          <li><i><Icon name="check" size={14} /></i>Técnicas de desplazamiento</li>
-          <li><i><Icon name="check" size={14} /></i>Evaluación final con certificación</li>
-        </ul>
-      </div>
-      <div>
-        <div class="panel">
-          <div>
-            <h3><Icon name="clock" size={16} /> Duración</h3>
-            <p class="big">{autorizado.horas} horas</p>
-            <p class="small">Reentrenamiento: {reentrenamiento.horas} horas</p>
-          </div>
-          <div>
-            <h3>Requisitos</h3>
-            <ul>
-              <li>Documento de identidad</li>
-              <li>Examen médico vigente</li>
-              <li>Afiliación a seguridad social</li>
-              <li>RUT empresarial</li>
-            </ul>
-          </div>
-        </div>
-        <p class="info"><Icon name="info" size={18} />¿No tienes el examen médico? Lo hacemos en nuestra IPS por {cop(examenAlturas.precio)}.</p>
-      </div>
-      <Foto src="/fotos/equipo-seguridad.webp" alt="Detalle de un arnés, conectores y equipo de protección" pos="65% 50%" />
-    </div>
-  </section>
-
-  <section class="sec">
     <div class="wrap">
-      <h2 class="h2">Nuestros cursos de certificación</h2>
-      <p class="sub">Elige el que se ajusta a tu trabajo.</p>
-      <div class="courses">
-        {cursos.map((c) => (
-          <article class="course">
-            <Foto src={c.src} alt={c.alt} pos={c.pos} />
-            <div class="bd">
-              <h3>{c.nombre}</h3>
-              <span class="meta"><Icon name="clock" size={16} /> {c.horas} horas</span>
-              <p>{c.temas}</p>
-              {c.precio ? <p class="price">{cop(c.precio)}</p> : <p class="price muted">Según disponibilidad</p>}
-              <a class="btn2" href={wa(`Hola, quiero información del curso ${c.nombre}.`)} target="_blank" rel="noopener">
-                Solicitar información <Icon name="arrow" size={16} />
-              </a>
-            </div>
-          </article>
+      <div class="head">
+        <h2 class="h2">Beneficios para su empresa</h2>
+      </div>
+      <div class="grid5">
+        {beneficios.map((b) => (
+          <div class="card">
+            <span class="ico"><Icon name={b.icon} size={22} /></span>
+            <h3>{b.t}</h3>
+            <p>{b.d}</p>
+          </div>
         ))}
       </div>
-      <p class="more"><a href={ruta('/precios')}>¿También necesitas examen médico, seguridad social o licencia? Ver todos los precios ›</a></p>
     </div>
   </section>
 
-  <section class="sec alt">
-    <div class="wrap faqgrid">
-      <div>
-        <h2 class="h2">Preguntas frecuentes</h2>
-        <p class="sub">Lo que más nos preguntan antes de inscribirse.</p>
-        <div class="faq">
-          {faq.map((f) => (
-            <details>
-              <summary>{f.q}<Icon name="plus" size={18} /></summary>
-              <p class="ans">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-      <ContactForm />
-    </div>
-  </section>
+  <CtaBand
+    title="¿Necesitas alguno de nuestros servicios?"
+    text="Cuéntanos qué necesitas y te orientaremos sobre el proceso."
+    contacto
+  />
 </Base>

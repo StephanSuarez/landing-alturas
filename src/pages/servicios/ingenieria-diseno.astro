@@ -1,0 +1,46 @@
+---
+// Fuente única: brochure, pág. 9. El brief no trae textos para esta página.
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero información sobre los servicios de ingeniería y diseño.';
+
+const grupos = [
+  { icon: 'building', t: 'Servicios civiles', items: ['Estudios de suelo', 'Remodelaciones y mantenimientos', 'Topografía y presupuestos'] },
+  { icon: 'compass', t: 'Servicios arquitectónicos', items: ['Diseños 3D y renders', 'Proyectos digitales y físicos', 'Visualizaciones y material publicitario'] },
+];
+---
+
+<Base
+  title="Ingeniería y Diseño | Línea+Vital"
+  description="Estudios de suelo, remodelaciones, topografía, presupuestos, diseños 3D, renders y visualizaciones arquitectónicas."
+  tema="ingenieria"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Ingeniería"
+    hl="y diseño"
+    tag="Civil · Arquitectónico"
+    tagIcon="compass"
+    sub="Servicios civiles y arquitectónicos."
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap grid2">
+      {grupos.map((g) => (
+        <div class="panel">
+          <span class="kicker"><Icon name={g.icon} size={16} /> {g.t}</span>
+          <ul class="checks">
+            {g.items.map((i) => <li><i><Icon name="check" size={14} /></i>{i}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand title="¿Tienes un proyecto?" text="Cuéntanos qué necesitas y te orientamos." msg={msg} />
+</Base>

@@ -5,29 +5,37 @@ import { servicios } from '../data/site';
 
 interface Props {
   servicio?: string;
+  title?: string;
+  text?: string;
 }
 
-const { servicio = servicios[0] } = Astro.props;
+const { servicio, title = 'Solicita información', text = 'Déjanos tus datos y cuéntanos qué necesitas.' } = Astro.props;
 ---
 
-<form class="form" data-wa-form>
-  <span class="kicker"><Icon name="wa" size={16} /> Contáctanos</span>
-  <h2>Solicita más información</h2>
-  <p>Escríbenos y te confirmamos fecha, requisitos y forma de pago.</p>
+<form class="form" id="formulario" data-wa-form>
+  <h2>{title}</h2>
+  <p>{text}</p>
+  <label class="fld">Nombre completo
+    <input name="nombre" required autocomplete="name" placeholder="Ana Gómez" />
+  </label>
   <div class="fr">
-    <label class="fld">Nombre completo
-      <input name="nombre" required autocomplete="name" placeholder="Ana Gómez" />
+    <label class="fld">Teléfono
+      <input name="telefono" type="tel" required autocomplete="tel" inputmode="tel" placeholder="300 123 4567" />
     </label>
-    <label class="fld">Servicio
-      <select name="servicio">
-        {servicios.map((s) => <option selected={s === servicio}>{s}</option>)}
-      </select>
+    <label class="fld">Correo electrónico
+      <input name="correo" type="email" autocomplete="email" placeholder="ana@empresa.com" />
     </label>
   </div>
-  <label class="fld">Mensaje (opcional)
-    <textarea name="mensaje" rows="3" placeholder="Somos 5 personas y necesitamos el curso este mes."></textarea>
+  <label class="fld">Servicio de interés
+    <select name="servicio">
+      {servicios.map((s) => <option selected={s === servicio}>{s}</option>)}
+    </select>
   </label>
-  <button class="cta block" type="submit"><Icon name="wa" /> Enviar por WhatsApp</button>
+  <label class="fld">Mensaje
+    <textarea name="mensaje" rows="3" placeholder="Cuéntanos qué necesitas y para cuántas personas."></textarea>
+  </label>
+  <button class="cta block" type="submit">Enviar solicitud <Icon name="arrow" size={16} /></button>
+  <p class="fnote"><Icon name="wa" size={14} /> Al enviar se abre WhatsApp con tu solicitud lista.</p>
 </form>
 
 <script>
@@ -37,10 +45,14 @@ const { servicio = servicios[0] } = Astro.props;
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const d = new FormData(form);
-      const mensaje = String(d.get('mensaje') ?? '').trim();
-      const texto = [`Hola, soy ${d.get('nombre')}.`, `Me interesa: ${d.get('servicio')}.`, mensaje]
-        .filter(Boolean)
-        .join(' ');
+      const campo = (k: string) => String(d.get(k) ?? '').trim();
+      const texto = [
+        `Hola, soy ${campo('nombre')}.`,
+        `Me interesa: ${campo('servicio')}.`,
+        `Teléfono: ${campo('telefono')}.`,
+        campo('correo') && `Correo: ${campo('correo')}.`,
+        campo('mensaje'),
+      ].filter(Boolean).join('\n');
       const url = wa(texto);
       const win = window.open(url, '_blank');
       if (win) win.opener = null;

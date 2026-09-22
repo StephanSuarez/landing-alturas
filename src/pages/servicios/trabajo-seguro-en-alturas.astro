@@ -1,0 +1,159 @@
+---
+// Evolución de la landing original (rama backup-landing-alturas): misma portada, cursos, FAQ y formulario, sin precios.
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Foto from '../../components/Foto.astro';
+import Asesor from '../../components/Asesor.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { centros, paginas, ruta, wa } from '../../data/site';
+
+const msg = 'Hola, quiero información sobre la capacitación en trabajo seguro en alturas.';
+
+// Niveles: brief y ENGAGED BPO CALI.pdf (págs. 1 y 2). Temas: brochure, pág. 3.
+// Fotos: imágenes sintéticas de la landing original. TODO: reemplazar por fotos reales.
+const cursos = [
+  { id: 'jefe-de-area', nombre: 'Jefe de área', horas: 8, modo: 'Teórico / virtual',
+    src: '/fotos/instructor-practica.webp', alt: 'Instructor explicando una práctica a un grupo con cascos y arneses', pos: '50% 30%' },
+  { id: 'trabajador-autorizado', nombre: 'Trabajador autorizado', horas: 32, modo: 'Teórico-práctico', extra: 'Vigencia: 18 meses',
+    temas: ['Prevención de caídas', 'Técnicas de desplazamiento', 'Evaluación final con certificación'],
+    src: '/fotos/curso-trabajador-autorizado.webp', alt: 'Trabajador con equipo de protección junto a una estructura de entrenamiento', pos: '55% 45%' },
+  { id: 'coordinador', nombre: 'Coordinador', horas: 80, modo: '60 % teórico · 40 % práctico', extra: 'Requiere curso de 50 o 20 horas en SST',
+    temas: ['Planes de trabajo seguro', 'Supervisión en campo', 'Inspecciones y rescates'],
+    src: '/fotos/curso-coordinador.webp', alt: 'Profesional con casco y arnés revisando una tableta en una estructura industrial', pos: '52% 45%' },
+  { id: 'reentrenamiento', nombre: 'Reentrenamiento', horas: 8, modo: 'Anual', extra: 'O cuando cambie la empresa o actividad',
+    temas: ['Uso de EPP', 'Maniobras de rescate', 'Protocolos y normativas'],
+    src: '/fotos/curso-reentrenamiento.webp', alt: 'Dos participantes con cascos y arneses durante una práctica', pos: '55% 45%' },
+];
+
+const requisitos = [
+  { t: 'Documento de identidad', d: 'Copia legible o ampliada al 150 %.' },
+  { t: 'Seguridad social vigente', d: 'Afiliación a EPS, AFP y ARL.' },
+  { t: 'Certificado médico de aptitud física para alturas', d: 'Con vigencia máxima de 1 año.' },
+  { t: 'Ropa de trabajo adecuada y botas de seguridad' },
+  { t: 'Elementos adicionales según el centro de capacitación', d: 'En algunos centros, guantes. Por lo regular los centros prestan o alquilan parte del equipo.' },
+];
+
+const faq = [
+  { q: '¿Quién debe hacer el curso?', a: 'Es obligatorio para quienes trabajan a más de 2,0 metros de altura, o menos si el riesgo lo amerita. Aplica a trabajadores dependientes o independientes.' },
+  { q: '¿Cuánto dura cada nivel?', a: 'Jefe de área, 8 horas. Trabajador autorizado, 32 horas. Coordinador, 80 horas. Reentrenamiento, 8 horas.' },
+  { q: '¿Cada cuánto debo hacer el reentrenamiento?', a: 'Una vez al año, o cada vez que cambie de empresa o de actividad.' },
+  { q: '¿Cómo verifico el certificado?', a: 'Todo curso puede ser verificado en la página web del Ministerio de Trabajo.' },
+  { q: '¿Qué pasa si no tengo el examen médico?', a: 'El examen médico debe estar vigente al momento de realizar el curso. Te ayudamos a gestionar el examen de aptitud en alturas.' },
+];
+---
+
+<Base
+  title="Trabajo Seguro en Alturas | Línea+Vital"
+  description="Capacitación en trabajo seguro en alturas: jefe de área, trabajador autorizado, coordinador y reentrenamiento. Resolución 4272 de 2021."
+  image="/og-alturas.jpg"
+  tema="alturas"
+  msg={msg}
+>
+  <section class="navy hero-full hero-sec">
+    <Foto class="hero-bg" src="/fotos/hero-alturas-panoramica.webp" alt="Trabajador con arnés y una ciudad al fondo" pos="72% 40%" eager />
+    <div class="wrap hero-inner">
+      <div class="stack">
+        <span class="tag"><Icon name="shield" size={14} /> Resolución 4272 de 2021</span>
+        <h1 class="h1">Trabajo seguro<br /><span class="hl">en alturas</span></h1>
+        <p class="lead">Capacitación para trabajar en alturas de forma segura</p>
+        <p class="txt">La capacitación está dirigida a trabajadores que desarrollan actividades en alturas y contempla diferentes niveles de formación.</p>
+        <div class="actions">
+          <Asesor msg={msg} />
+          <a class="ghost" href="#niveles">Ver niveles <Icon name="arrow" size={16} /></a>
+        </div>
+        <ul class="feats">
+          <li><Icon name="shield" size={24} />Avalado por<br />Mintrabajo</li>
+          <li><Icon name="cert" size={24} />Certificado<br />verificable</li>
+          <li><Icon name="globe" size={24} />Cobertura<br />nacional</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="niveles">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Niveles de formación</h2>
+        <p class="sub">Obligatorio para quienes trabajan a más de 2,0 metros de altura, o menos si el riesgo lo amerita.</p>
+      </div>
+      <div class="courses">
+        {cursos.map((c) => (
+          <article class="course" id={c.id}>
+            <Foto src={c.src} alt={c.alt} pos={c.pos} />
+            <div class="bd">
+              <h3>{c.nombre}</h3>
+              <div class="meta">
+                <span class="pill"><Icon name="clock" size={14} /> {c.horas} horas</span>
+                <span class="pill">{c.modo}</span>
+              </div>
+              {c.extra && <p class="extra">{c.extra}</p>}
+              {c.temas && <ul>{c.temas.map((t) => <li>{t}</li>)}</ul>}
+              <a class="btn2" href={wa(`Hola, quiero información del curso ${c.nombre} en alturas.`)} target="_blank" rel="noopener">
+                Solicitar información <Icon name="arrow" size={16} />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap two">
+      <div>
+        <h2 class="h2">Requisitos generales</h2>
+        <p class="sub">Para trabajadores dependientes o independientes.</p>
+        <ul class="checks">
+          {requisitos.map((r) => <li><i><Icon name="check" size={14} /></i><span>{r.t}{r.d && <small>{r.d}</small>}</span></li>)}
+        </ul>
+        <p class="info"><Icon name="info" size={18} /><span>¿No tienes el certificado médico? <a href={ruta(paginas.salud.href + '#aptitud-alturas')}>Gestiona el examen de aptitud en alturas</a></span></p>
+      </div>
+      <div class="imgcard">
+        <Foto src="/fotos/equipo-seguridad.webp" alt="Detalle de un arnés, conectores y equipo de protección" pos="65% 50%" />
+        <div class="txt">
+          <h3>Certificado verificable</h3>
+          <p>Todo curso puede ser verificado en la página web del Ministerio de Trabajo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="centros">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Centros de capacitación presencial</h2>
+        <p class="sub">Si necesitas capacitación presencial en otra ciudad, escríbenos: verificamos si hay un centro cercano para extender el convenio.</p>
+      </div>
+      <div class="centers">
+        {centros.map((c) => (
+          <div class="center">
+            <span class="where"><Icon name="pin" size={14} /> {c.ciudad} · {c.depto}</span>
+            <b>{c.nombre}</b>
+            <span>{c.dir}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap faqgrid">
+      <div>
+        <h2 class="h2">Preguntas frecuentes</h2>
+        <div class="faq">
+          {faq.map((f) => (
+            <details>
+              <summary>{f.q}<Icon name="plus" size={18} /></summary>
+              <p class="ans">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+      <ContactForm
+        servicio={paginas.alturas.nombre}
+        title="Solicita información sobre capacitación en alturas"
+        text="Cuéntanos qué nivel necesitas y para cuántas personas."
+      />
+    </div>
+  </section>
+</Base>

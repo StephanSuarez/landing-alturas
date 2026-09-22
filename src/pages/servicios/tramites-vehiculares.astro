@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, necesito realizar un trámite vehicular.';
+
+const tramites = [
+  'Licencias de conducción', 'Renovación de licencia', 'Recategorización de licencia', 'Peticiones de fotomultas',
+  'Prescripciones', 'Tecnomecánica', 'Liquidación de impuestos', 'Traspasos',
+  'Embargos', 'Traslado de cuentas', 'Matrículas', 'Seguro SOAT',
+];
+
+// Descripción de cada categoría: VALORES_2026.pdf, pág. 4.
+const categorias = [
+  { c: 'A2', d: 'Motocicletas, motociclos y mototriciclos de cilindraje superior a 125 c.c.' },
+  { c: 'B1', d: 'Automóviles, camperos, camionetas y microbuses de servicio particular.' },
+  { c: 'C1', d: 'Automóviles, camperos, camionetas, microbuses y taxis.' },
+  { c: 'C2', d: 'Camiones rígidos, busetas y buses de servicio público.' },
+];
+const combinaciones = ['A2 - B1', 'A2 - C1'];
+---
+
+<Base
+  title="Trámites Vehiculares | Línea+Vital"
+  description="Licencias de conducción, renovación, recategorización, fotomultas, tecnomecánica, traspasos, SOAT y otros trámites de tu vehículo."
+  tema="vehiculares"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Trámites"
+    hl="vehiculares"
+    tag="Licencias · SOAT · Traspasos"
+    tagIcon="car"
+    sub="Te ayudamos a gestionar los trámites de tu vehículo"
+    msg={msg}
+    second={{ label: 'Ver trámites', href: '#tramites' }}
+  />
+
+  <section class="sec" id="tramites">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Trámites que gestionamos</h2>
+      </div>
+      <div class="grid4">
+        {tramites.map((t) => <div class="tile"><Icon name="check" size={18} />{t}</div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="head">
+        <span class="kicker"><Icon name="doc" size={16} /> Licencias de conducción</span>
+        <h2 class="h2">Categorías</h2>
+      </div>
+      <div class="grid4">
+        {categorias.map((k) => (
+          <div class="card">
+            <span class="acr">{k.c}</span>
+            <p>{k.d}</p>
+          </div>
+        ))}
+      </div>
+      <div class="combo" style="margin-top: 16px;">
+        <span class="small-title">Combinaciones:</span>
+        {combinaciones.map((c) => <span class="pill">{c}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Necesito realizar un trámite" text="Cuéntanos cuál es y te orientamos sobre el proceso." label="Necesito realizar un trámite" msg={msg} />
+</Base>

@@ -1,41 +1,44 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import Hero from '../components/Hero.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { wa, WHATSAPP_VISIBLE, redes } from '../data/site';
+import { telefonos, tel, CORREO, redes } from '../data/site';
 ---
 
-<Base title="Contacto | Línea Vital" description="Escríbenos por WhatsApp para cursos de alturas, exámenes médicos y seguridad social.">
-  <section class="navy">
-    <div class="wrap hero short">
-      <div class="stack">
-        <span class="tag">Contacto</span>
-        <h1 class="h1 sm">Escríbenos por <span class="g">WhatsApp</span></h1>
-        <p class="lead">Dinos qué necesitas y para cuántas personas. Te atiende Lorena Martínez.</p>
-        <a class="cta" href={wa()} target="_blank" rel="noopener"><Icon name="wa" size={18} /> Hablar por WhatsApp <Icon name="arrow" size={16} /></a>
-        <p class="hero-price">{WHATSAPP_VISIBLE}</p>
-      </div>
-      <ContactForm />
-    </div>
-  </section>
+<Base title="Contacto | Línea+Vital" description="Hablemos: teléfonos, WhatsApp y correo de Línea+Vital. Cobertura y servicio a nivel nacional.">
+  <Hero
+    title="Hablemos"
+    tag="Contacto"
+    tagIcon="phone"
+    sub="Estamos listos para ayudarte"
+    text="Tenemos cobertura y servicio a nivel nacional."
+  >
+    <ContactForm slot="aside" title="Envíanos tu solicitud" />
+  </Hero>
 
   <section class="sec">
-    <div class="wrap pillars" style="margin-top: 0;">
-      <div class="pillar">
-        <h3>Redes</h3>
-        <p>
-          <a href={redes.instagram} target="_blank" rel="noopener">Instagram @lineavitalco</a><br />
-          <a href={redes.tiktok} target="_blank" rel="noopener">TikTok @lineavitalco</a><br />
-          {redes.facebook ? <a href={redes.facebook} target="_blank" rel="noopener">Facebook Linea Vital</a> : 'Facebook Linea Vital'}
-        </p>
+    <div class="wrap grid3">
+      <div class="card">
+        <span class="ico"><Icon name="phone" size={22} /></span>
+        <h2 class="h3">Teléfonos</h2>
+        <ul class="contact-list">
+          {telefonos.map((t) => <li><a href={tel(t.numero)}>{t.numero}</a>{t.nota && <span>{t.nota}</span>}</li>)}
+        </ul>
       </div>
-      <div class="pillar">
-        <h3>Horario</h3>
-        <p>[Horario de atención por confirmar]</p>
+      <div class="card">
+        <span class="ico"><Icon name="mail" size={22} /></span>
+        <h2 class="h3">Correo</h2>
+        <ul class="contact-list"><li><a href={`mailto:${CORREO}`}>{CORREO}</a></li></ul>
       </div>
-      <div class="pillar">
-        <h3>Sede</h3>
-        <p>[Dirección y ciudad por confirmar]<br />Cobertura nacional.</p>
+      <div class="card">
+        <span class="ico"><Icon name="heart" size={22} /></span>
+        <h2 class="h3">Redes</h2>
+        <ul class="contact-list">
+          <li><a href={redes.instagram} target="_blank" rel="noopener">Instagram @lineavitalco</a></li>
+          <li><a href={redes.tiktok} target="_blank" rel="noopener">TikTok @lineavitalco</a></li>
+          <li>{redes.facebook ? <a href={redes.facebook} target="_blank" rel="noopener">Facebook Linea Vital</a> : 'Facebook Linea Vital'}</li>
+        </ul>
       </div>
     </div>
   </section>

@@ -1,0 +1,44 @@
+---
+// Fuente única: brochure, pág. 12 (y VALORES_2026.pdf, pág. 7). El brief no trae textos para esta página.
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const msg = 'Hola, quiero información sobre la terapia holística y ancestral.';
+
+const terapias = [
+  'Auriculoterapia', 'Parkinson', 'Obesidad', 'Adicciones', 'Radiestesia', 'Hipnosis',
+  'Péndulo hebreo "Sanación"', 'Reflexología (pies y manos)', 'Chakras', 'Armonización - Alineación', 'Regulación del sueño', 'Reiki',
+];
+---
+
+<Base
+  title="Terapia Holística y Ancestral | Línea+Vital"
+  description="Terapia holística y medicina ancestral: auriculoterapia, radiestesia, hipnosis, reflexología, reiki, chakras y más."
+  tema="terapia"
+  msg={msg}
+>
+  <Hero
+    title="Terapia holística"
+    hl="y ancestral"
+    tag="Terapia holística · Medicina ancestral"
+    tagIcon="leaf"
+    sub="Terapias holísticas y de medicina ancestral."
+    msg={msg}
+  />
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">Terapias</h2>
+      </div>
+      <ul class="chips">
+        {terapias.map((t) => <li class="chip"><Icon name="leaf" size={16} />{t}</li>)}
+      </ul>
+      <p class="note">Las terapias holísticas son complementarias y no reemplazan el diagnóstico ni el tratamiento médico.</p>
+    </div>
+  </section>
+
+  <CtaBand title="¿Quieres saber más?" text="Un asesor te explica cada terapia." msg={msg} />
+</Base>

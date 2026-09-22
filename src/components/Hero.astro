@@ -1,0 +1,41 @@
+---
+// Portada de cada página: oscura (por defecto) o clara con el tono del servicio.
+// A la derecha va una foto o lo que llegue en el slot "aside"; sin nada, el texto va solo.
+import Icon from './Icon.astro';
+import Foto from './Foto.astro';
+import Asesor from './Asesor.astro';
+import { ruta } from '../data/site';
+
+interface Props {
+  title: string;
+  hl?: string; // parte del título en el color del servicio
+  tag?: string;
+  tagIcon?: string;
+  sub?: string;
+  text?: string;
+  msg?: string;
+  second?: { label: string; href: string };
+  light?: boolean;
+  photo?: { src: string; alt: string; pos?: string };
+}
+
+const { title, hl, tag, tagIcon = 'pulse', sub, text, msg, second, light = false, photo } = Astro.props;
+const aside = photo || Astro.slots.has('aside');
+---
+
+<section class:list={['hero-sec', light ? 'soft' : 'navy']}>
+  <div class:list={['wrap hero', { solo: !aside }]}>
+    <div class="stack">
+      {tag && <span class="tag"><Icon name={tagIcon} size={14} /> {tag}</span>}
+      <h1 class="h1">{title}{hl && <> <span class="hl">{hl}</span></>}</h1>
+      {sub && <p class="lead">{sub}</p>}
+      {text && <p class="txt">{text}</p>}
+      <div class="actions">
+        <Asesor msg={msg} />
+        {second && <a class="ghost" href={second.href.startsWith('#') ? second.href : ruta(second.href)}>{second.label} <Icon name="arrow" size={16} /></a>}
+      </div>
+      <slot />
+    </div>
+    {photo ? <Foto class="md" src={photo.src} alt={photo.alt} pos={photo.pos} eager /> : <slot name="aside" />}
+  </div>
+</section>

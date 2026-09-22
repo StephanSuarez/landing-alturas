@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Hero from '../../components/Hero.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { paginas } from '../../data/site';
+
+const msg = 'Hola, quiero información sobre el curso y el examen de manipulación de alimentos.';
+
+// Qué busca cada prueba: ENGAGED BPO CALI.pdf, pág. 4.
+const pruebas = [
+  { t: 'Frotis faríngeo', zona: 'Garganta', d: 'Para descartar bacterias como el Staphylococcus aureus.' },
+  { t: 'Frotis subungueal', zona: 'Uñas', d: 'Verifica higiene y ausencia de hongos o bacterias bajo las uñas.' },
+  { t: 'Coprológico', zona: 'Heces', d: 'Detecta parásitos o bacterias, como Salmonella, que podrían transmitirse a los consumidores.' },
+];
+---
+
+<Base
+  title="Manipulación de Alimentos | Línea+Vital"
+  description="Curso y examen de manipulación de alimentos para personas y empresas de la cadena de producción o servicio de alimentos."
+  tema="alimentos"
+  msg={msg}
+>
+  <Hero
+    light
+    title="Manipulación de"
+    hl="alimentos"
+    tag="Curso y examen"
+    tagIcon="food"
+    sub="Curso y examen de manipulación de alimentos"
+    text="Soluciones para personas y empresas que requieren procesos relacionados con la manipulación de alimentos."
+    msg={msg}
+    second={{ label: 'Solicitar información', href: '#formulario' }}
+  >
+    <div class="panel" slot="aside">
+      <span class="kicker"><Icon name="users" size={16} /> Dirigido a</span>
+      <p class="lead">Personas que trabajan en la cadena de producción o servicio de alimentos.</p>
+    </div>
+  </Hero>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="grid2">
+        <article class="card">
+          <span class="ico"><Icon name="cert" size={22} /></span>
+          <h3>Curso de manipulación de alimentos</h3>
+        </article>
+        <article class="card" id="examen" style="scroll-margin-top: 96px">
+          <span class="ico"><Icon name="clipboard" size={22} /></span>
+          <h3>Examen de manipulación de alimentos</h3>
+          <p>Incluye tres pruebas: frotis faríngeo, frotis subungueal y coprológico.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="h2">El examen incluye</h2>
+      </div>
+      <div class="grid3">
+        {pruebas.map((p) => (
+          <div class="card">
+            <span class="kicker">{p.zona}</span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap faqgrid">
+      <div>
+        <h2 class="h2">Solicitar información</h2>
+        <p class="sub">Cuéntanos si necesitas el curso, el examen o ambos, y para cuántas personas.</p>
+      </div>
+      <ContactForm servicio={paginas.alimentos.nombre} title="Hablemos de tu solicitud" />
+    </div>
+  </section>
+</Base>
